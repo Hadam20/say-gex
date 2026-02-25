@@ -1,0 +1,169 @@
+enum UserRole1 {
+  Admin = 1,
+  Editor = 2,
+  Viewer = 3
+}
+
+function getAccessLevel(role: UserRole1): string {
+  switch (role) {
+    case UserRole1.Admin:
+      return "Full access"
+    case UserRole1.Editor:
+      return "Limited access"
+    case UserRole1.Viewer:
+      return "Read only"
+    default:
+      return ""
+  }
+}
+
+enum UserRole {
+  Admin,
+  Manager,
+  Customer
+}
+
+interface User {
+  id: string
+  email: string
+  role: UserRole
+  isActive: boolean
+}
+
+function canDeleteUser(role: UserRole): boolean {
+  return role === UserRole.Admin
+}
+
+enum PaymentStatus {
+  Pending,
+  Completed,
+  Failed,
+  Refunded
+}
+
+interface Payment {
+  id: string
+  orderId: string
+  amount: number
+  status: PaymentStatus
+}
+
+function isFinalStatus(status: PaymentStatus): boolean {
+  return (
+    status === PaymentStatus.Completed ||
+    status === PaymentStatus.Failed ||
+    status === PaymentStatus.Refunded
+  )
+}
+
+enum ProductCategory {
+  Electronics,
+  Clothing,
+  Food
+}
+
+interface Product {
+  id: string
+  name: string
+  price: number
+  category: ProductCategory
+}
+
+function isDiscountAllowed(product: Product): boolean {
+  return product.category === ProductCategory.Clothing
+}
+
+enum TicketPriority {
+  Low,
+  Medium,
+  High,
+  Critical
+}
+
+interface Ticket {
+  id: string
+  title: string
+  priority: TicketPriority
+  resolved: boolean
+}
+
+function requiresImmediateAction(ticket: Ticket): boolean {
+  return (
+    ticket.priority === TicketPriority.Critical ||
+    ticket.priority === TicketPriority.High
+  )
+}
+
+enum ShippingMethod {
+  Standard,
+  Express,
+  SameDay
+}
+
+interface Shipment {
+  id: string
+  orderId: string
+  method: ShippingMethod
+  cost: number
+}
+
+function calculateDeliveryDays(method: ShippingMethod): number {
+  switch (method) {
+    case ShippingMethod.Standard:
+      return 5
+    case ShippingMethod.Express:
+      return 2
+    case ShippingMethod.SameDay:
+      return 1
+    default:
+      return 0
+  }
+}
+
+enum AccountStatus {
+  Active,
+  Suspended,
+  Deleted
+}
+
+interface Account {
+  id: string
+  email: string
+  status: AccountStatus
+}
+
+function canLogin(account: Account): boolean {
+  return account.status === AccountStatus.Active
+}
+
+enum NotificationType {
+  Email,
+  SMS,
+  Push
+}
+
+interface Notification {
+  id: string
+  type: NotificationType
+  recipient: string
+  message: string
+}
+
+function sendNotification(notification: Notification): void {
+  const channel = NotificationType[notification.type]
+  console.log(`Sending via ${channel} to ${notification.recipient}`)
+}
+
+enum OrderStatusTransition {
+  Pending,
+  Paid,
+  Shipped,
+  Delivered,
+  Cancelled
+}
+
+function canTransition(from: OrderStatusTransition, to: OrderStatusTransition): boolean {
+  if (from === OrderStatusTransition.Delivered) return false
+  if (from === OrderStatusTransition.Cancelled) return false
+  return true
+}
